@@ -977,7 +977,7 @@ public class FeatureProcessor {
 	 * ADDED BY BRAYAN
 	 */
 	/**
-	 * Extracts the metadata that is contained in the mp3 file. 
+	 * Extracts the metadata that is contained in the mp3 file and write them to the file ARFF. 
 	 * @param wav_path: path .wav with its respective .mp3 on the same path 
 	 */
 	

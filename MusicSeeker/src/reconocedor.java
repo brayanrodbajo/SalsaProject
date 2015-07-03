@@ -27,7 +27,7 @@ import javazoom.jl.decoder.JavaLayerException;
 @SuppressWarnings("serial")
 public class reconocedor  {
 	//TODO Reemplazar la referencia a la ruta donde se encuentran los archivos
-	String path= "/home/family/Musica/muestra";
+	String path= "/home/family/Musica/pruebas_muestra";
 	final File folder = new File(path);
 	
 	Vector <RecordingInfo> ri =new Vector <RecordingInfo>();  
@@ -42,7 +42,7 @@ public class reconocedor  {
 	//MFCC m	fccObj;
 
 	public void setup() {
-		dm = new DataModel ("features.xml", null, "fk_muestra.arff", "fv_muestra.arff");
+		dm = new DataModel ("features.xml", null, "fk_muestra.arff", "fv_pruebas_muestra.arff");
 		metaFinal = "";
 		try {
 			listFilesForFolder(folder);
@@ -79,6 +79,7 @@ public class reconocedor  {
 						
 						mp3towav(path, wav_path);
 						ri.add(new RecordingInfo(wav_path));
+						System.out.println(wav_path);
 					}
 				} catch (Exception e) {
 					e.printStackTrace();
