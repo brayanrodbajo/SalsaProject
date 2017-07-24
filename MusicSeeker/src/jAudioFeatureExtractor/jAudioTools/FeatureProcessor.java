@@ -966,7 +966,7 @@ public class FeatureProcessor {
 					}
 				}
 				//added by Brayan
-				extractMP3Tags(identifier);
+				//extractMP3Tags(identifier);
 				
 				values_writer.writeBytes(System.getProperty("line.separator"));
 			}

@@ -27,8 +27,7 @@ import javazoom.jl.decoder.JavaLayerException;
 @SuppressWarnings("serial")
 public class reconocedor  {
 	//TODO Reemplazar la referencia a la ruta donde se encuentran los archivos
-	String path= "/home/family/Musica/pruebas_muestra";
-	final File folder = new File(path);
+	
 	
 	Vector <RecordingInfo> ri =new Vector <RecordingInfo>();  
 	
@@ -41,9 +40,11 @@ public class reconocedor  {
 	
 	//MFCC m	fccObj;
 
-	public void setup() {
+	public void setup(String path) {
 		dm = new DataModel ("features.xml", null, "fk_muestra.arff", "fv_pruebas_muestra.arff");
 		metaFinal = "";
+		
+		final File folder = new File(path);
 		try {
 			listFilesForFolder(folder);
 			extract();
@@ -72,15 +73,15 @@ public class reconocedor  {
 				listFilesForFolder(fileEntry);
 			} else {
 				try {
-					String path =fileEntry.getAbsolutePath();
-					if (path.contains(".mp3")) {
+					String wav_path =fileEntry.getAbsolutePath();
+					//if (path.contains(".mp3")) {
 						// metodos.getAudioFileFormatData(fileEntry);
-						String wav_path = path.substring(0,path.length()-4)+".wav";
+						//String wav_path = path.substring(0,path.length()-4)+".wav";
 						
-						mp3towav(path, wav_path);
+						//mp3towav(path, wav_path);
 						ri.add(new RecordingInfo(wav_path));
 						System.out.println(wav_path);
-					}
+					//}
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -96,11 +97,12 @@ public class reconocedor  {
 	}
 	
 	public static void main(String args[]){
+		String path= "/home/uv/Escritorio/A/prueba_jaudio";
 	
-		System.out.println("Ejecución Iniciada");
+		System.out.println("Ejecucion Iniciadaaaaaa");
 		reconocedor recon = new reconocedor();
-		recon.setup();
-		System.out.println("Ejecución Finalizada");
+		recon.setup(path);
+		System.out.println("Ejecucion Finalizada");
 	}
 	
 
