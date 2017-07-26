@@ -41,7 +41,7 @@ public class reconocedor  {
 	//MFCC m	fccObj;
 
 	public void setup(String path) {
-		dm = new DataModel ("features.xml", null, "fk_muestra.arff", "fv_pruebas_muestra.arff");
+		dm = new DataModel ("features.xml", null, "estimulo_c_fk_muestra.arff", "estimulo_c_fv_pruebas_muestra.arff");
 		metaFinal = "";
 		
 		final File folder = new File(path);
@@ -97,7 +97,7 @@ public class reconocedor  {
 	}
 	
 	public static void main(String args[]){
-		String path= "/home/uv/Escritorio/A/prueba_jaudio";
+		String path= "/home/uv/Dropbox/Programming/ComputerMusic/Musicar/ANALISIS MUSICA ICESI/BALADAS INSTRUMENTALES AC MODERNO - ESTIMULO C - ROMANTICO - AMOROSO - NOSTALGICO/";
 	
 		System.out.println("Ejecucion Iniciadaaaaaa");
 		reconocedor recon = new reconocedor();
