@@ -41,7 +41,7 @@ public class reconocedor  {
 	//MFCC m	fccObj;
 
 	public void setup(String path) {
-		dm = new DataModel ("features.xml", null, "estimulo_c_fk_muestra.arff", "estimulo_c_fv_pruebas_muestra.arff");
+		dm = new DataModel ("features.xml", null, "estimulo_a_fk_muestra.arff", "estimulo_a_fv_pruebas_muestra.arff");
 		metaFinal = "";
 		
 		final File folder = new File(path);
@@ -73,15 +73,15 @@ public class reconocedor  {
 				listFilesForFolder(fileEntry);
 			} else {
 				try {
-					String wav_path =fileEntry.getAbsolutePath();
-					//if (path.contains(".mp3")) {
-						// metodos.getAudioFileFormatData(fileEntry);
-						//String wav_path = path.substring(0,path.length()-4)+".wav";
+					String path =fileEntry.getAbsolutePath();
+					if (path.contains(".mp3")) {
+						//metodos.getAudioFileFormatData(fileEntry);
+						String wav_path = path.substring(0,path.length()-4)+".wav";
+						mp3towav(path, wav_path);
 						
-						//mp3towav(path, wav_path);
 						ri.add(new RecordingInfo(wav_path));
 						System.out.println(wav_path);
-					//}
+					}
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -97,7 +97,7 @@ public class reconocedor  {
 	}
 	
 	public static void main(String args[]){
-		String path= "/home/uv/Dropbox/Programming/ComputerMusic/Musicar/ANALISIS MUSICA ICESI/BALADAS INSTRUMENTALES AC MODERNO - ESTIMULO C - ROMANTICO - AMOROSO - NOSTALGICO/";
+		String path= "/home/uv/Dropbox/Programming/ComputerMusic/Musicar/ANALISIS MUSICA ICESI/INSTRUMENTAL MODERNO - ESTIMULO A - POSITIVA - ALEGRE - MOTIVANTE/";
 	
 		System.out.println("Ejecucion Iniciadaaaaaa");
 		reconocedor recon = new reconocedor();
