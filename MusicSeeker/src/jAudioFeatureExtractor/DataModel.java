@@ -279,7 +279,9 @@ public class DataModel {
 	 */
 	public void extract(int windowSize, double windowOverlap,
 			double samplingRate, boolean normalise, boolean perWindowStats,
-			boolean overallStats, Vector <RecordingInfo> info, int arff)
+			boolean overallStats, Vector <RecordingInfo> info, int arff,
+			//added by Brayan
+			String csv_path)
 			throws Exception {
 		// Get the control parameters
 		boolean save_features_for_each_window = perWindowStats;
@@ -315,7 +317,7 @@ public class DataModel {
 				window_overlap, sampling_rate, normalise, this.features,
 				this.defaults, save_features_for_each_window,
 				save_overall_recording_features, featureValue, featureKey,
-				outputType, cancel_, container);
+				outputType, cancel_, container, csv_path);
 
 		// Extract features from recordings one by one and save them in XML
 		// files

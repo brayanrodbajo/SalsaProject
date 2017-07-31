@@ -31,7 +31,7 @@ public class reconocedor  {
 	
 	Vector <RecordingInfo> ri =new Vector <RecordingInfo>();  
 	
-	
+	String csv_path;
 	
 	String metaFinal;
 	AudioMethods metodos;
@@ -41,7 +41,8 @@ public class reconocedor  {
 	//MFCC m	fccObj;
 
 	public void setup(String path) {
-		dm = new DataModel ("features.xml", null, "estimulo_a_fk_muestra.arff", "estimulo_a_fv_pruebas_muestra.arff");
+		csv_path = "/home/uv/Dropbox/Programming/ComputerMusic/Musicar/Listado de Musica.csv"; //path of features
+		dm = new DataModel ("features.xml", null, "estimulo_c_fk_muestra.arff", "estimulo_c_fv_pruebas_muestra.arff");
 		metaFinal = "";
 		
 		final File folder = new File(path);
@@ -93,11 +94,11 @@ public class reconocedor  {
 	}
 	
 	public void extract() throws Exception{
-		dm.extract(512, 0.0, 22.05, false, true, false, ri, 1);
+		dm.extract(512, 0.0, 22.05, false, true, false, ri, 1, csv_path);
 	}
 	
 	public static void main(String args[]){
-		String path= "/home/uv/Dropbox/Programming/ComputerMusic/Musicar/ANALISIS MUSICA ICESI/INSTRUMENTAL MODERNO - ESTIMULO A - POSITIVA - ALEGRE - MOTIVANTE/";
+		String path= "/home/uv/Dropbox/Programming/ComputerMusic/Musicar/ANALISIS MUSICA ICESI/BALADAS INSTRUMENTALES AC MODERNO - ESTIMULO C - ROMANTICO - AMOROSO - NOSTALGICO/";
 	
 		System.out.println("Ejecucion Iniciadaaaaaa");
 		reconocedor recon = new reconocedor();

@@ -123,6 +123,10 @@ public class FeatureProcessor {
 	private Cancel cancel;
 	
 	private AggregatorContainer aggregator;
+	
+	//added by Brayan
+	private String csv_path;
+	
 
 	/* CONSTRUCTOR ************************************************************ */
 
@@ -160,6 +164,8 @@ public class FeatureProcessor {
 	 * @param feature_definitions_save_path
 	 *            The path of the feature_key_file file to save feature
 	 *            definitions to.
+	 * @param csv_path 
+	 * 			  Features of the songs.
 	 * @throws Exception
 	 *             Throws an informative exception if the input parameters are
 	 *             invalid.
@@ -174,7 +180,9 @@ public class FeatureProcessor {
 			OutputStream feature_definitions_save_path, 
 			int outputType,
 			Cancel cancel,
-			AggregatorContainer container)
+			AggregatorContainer container,
+			//added by Brayan
+			String csv_path)
 			throws Exception {
 		this.cancel = cancel;
 		if(container!=null){
@@ -271,6 +279,9 @@ public class FeatureProcessor {
 		metadata[3] = "xmpDM:genre";
 		metadata[4] = "xmpDM:album";
 
+		//added by Brayan
+		this.csv_path = csv_path;
+		
 		// Write the headers of the feature_vector_file
 		if (outputType == 0) {
 			writeValuesXMLHeader();
@@ -884,12 +895,53 @@ public class FeatureProcessor {
 				}
 			}
 			//added by Brayan
-			for(int i=0; i < metadata.length; i++){
+			/*for(int i=0; i < metadata.length; i++){
 				values_writer.writeBytes("@ATTRIBUTE \"" + metadata[i] 
 						+ "\" STRING" + sep);
 			}
 			values_writer.writeBytes(sep);
 			values_writer.writeBytes("@DATA" + sep);
+			*/
+			//added by Brayan
+			BufferedReader br = null;
+	        String line = "";
+	        String cvsSplitBy = ",";
+
+	        try {
+
+	            br = new BufferedReader(new FileReader(csv_path));
+	            line = br.readLine();
+	            String[] titles = line.split(cvsSplitBy);
+
+	            values_writer.writeBytes("@ATTRIBUTE \"" + titles[1] 
+						+ "\" STRING" + sep);
+	            values_writer.writeBytes("@ATTRIBUTE \"" + titles[2] 
+						+ "\" STRING" + sep);
+	            values_writer.writeBytes("@ATTRIBUTE \"" + titles[3] 
+						+ "\" STRING" + sep);
+	            values_writer.writeBytes("@ATTRIBUTE \"" + titles[4] 
+						+ "\" STRING" + sep);
+	            values_writer.writeBytes("@ATTRIBUTE \"" + titles[5] 
+						+ "\" NUMERIC" + sep);
+	            values_writer.writeBytes("@ATTRIBUTE \"" + titles[6] 
+						+ "\" NUMERIC" + sep);
+	            values_writer.writeBytes("@ATTRIBUTE \"" + titles[7] 
+						+ "\" NUMERIC" + sep);
+    		
+
+	        } catch (FileNotFoundException e) {
+	            e.printStackTrace();
+	        } catch (IOException e) {
+	            e.printStackTrace();
+	        } finally {
+	            if (br != null) {
+	                try {
+	                    br.close();
+	                } catch (IOException e) {
+	                    e.printStackTrace();
+	                }
+	            }
+	        }
 		}
 	}
 
@@ -967,6 +1019,9 @@ public class FeatureProcessor {
 				}
 				//added by Brayan
 				//extractMP3Tags(identifier);
+				String[] divided_path = identifier.split("/");
+				String filename = divided_path[divided_path.length-1];
+				extractCSVFeatures(filename);
 				
 				values_writer.writeBytes(System.getProperty("line.separator"));
 			}
@@ -977,9 +1032,52 @@ public class FeatureProcessor {
 	 * ADDED BY BRAYAN
 	 */
 	/**
-	 * Extracts the metadata that is contained in the mp3 file and write them to the file ARFF. 
-	 * @param wav_path: path .wav with its respective .mp3 on the same path 
+	 * Extracts the features annotated of the regarding filename. 
+	 * @param filename: the name of the file to get features. 
 	 */
+	public void extractCSVFeatures(String filename) {
+        BufferedReader br = null;
+        String line = "";
+        String cvsSplitBy = ",";
+
+        try {
+
+            br = new BufferedReader(new FileReader(csv_path));
+            line = br.readLine();
+            String[] titles = line.split(cvsSplitBy);
+            while ((line = br.readLine()) != null) {
+            	String [] tags = line.split(cvsSplitBy);
+				System.out.println(filename);
+				System.out.println(tags[0]);
+            	if (tags[0]!=null) {
+	            	if (tags[0].substring(0,tags[0].length()-4).equals(filename.substring(0,filename.length()-4))) { //regardingless the extension file
+	            		for(int i=1; i<titles.length;i++) {
+	            			values_writer.writeBytes(",");
+	            			if (tags[i]!=null) {
+	            				System.out.println(tags[i]);
+	            				values_writer.writeBytes(tags[i]);
+	            			}
+	            	        else values_writer.writeBytes("?");
+	            		}
+	            		break;
+	            	}
+            	}
+            }
+
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            if (br != null) {
+                try {
+                    br.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+	}
 	
 	public void extractMP3Tags(String wav_path) throws Exception{
 		String mp3_path = wav_path.substring(0,wav_path.length()-4)+".mp3";
